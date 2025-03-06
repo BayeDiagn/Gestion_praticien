@@ -32,7 +32,6 @@ Avant de commencer, assurez-vous d'avoir installé les outils suivants :
 
 1. Clonez le dépôt :
    git clone https://github.com/BayeDiagn/Gestion_praticien.git
-   cd gestion_praticien/praticien-api
 
 Accédez au répertoire du backend : cd gestion_praticiens
 Démarrez le back
