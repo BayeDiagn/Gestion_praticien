@@ -1,0 +1,45 @@
+<div class="container py-5">
+  <div class="row">
+    @for (praticien of praticiens(); track praticien.id) {
+      <div class="col-md-4 mb-4">
+        <div class="card praticien-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <div class="praticien-avatar me-3">
+                {{ praticien.nom[0] }}
+              </div>
+              <div>
+                <h5 class="card-title mb-0">
+                  <a [routerLink]="['/praticiens/modifier-praticien', praticien.id]">{{ praticien.nom }} {{ praticien.prenom }}</a>
+                </h5>
+                <p class="card-text text-muted mb-0">{{ praticien.email }}</p>
+              </div>
+            </div>
+            <p class="card-text"><strong>Téléphone :</strong> {{ praticien.telephone }}</p>
+            <p class="card-text">
+              <strong>Spécialités :</strong>
+              {{ formatSpecialites(praticien.specialites) }}
+            </p>
+            <div class="card-text">
+              <strong>Adresses :</strong>
+              <ul>
+                @for (adresse of praticien.adresses; track adresse.rue) {
+                  <li>
+                    {{ adresse.type }} : {{ adresse.rue }}, {{ adresse.ville }}
+                  </li>
+                }
+              </ul>
+            </div>
+            <div class="btn btn-sm text-center">
+              <a (click)="supprimerPraticien(praticien.id)"><i class='bx bx-trash text-white'></i></a>
+          </div>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <p class="text-center">Aucun praticien trouvé.</p>
+      </div>
+    }
+  </div>
+</div>

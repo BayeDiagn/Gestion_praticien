@@ -1,0 +1,90 @@
+<div class="form-container">
+  <h2 class="form-title">Modifier un praticien</h2>
+  <form [formGroup]="praticienForm" (ngSubmit)="onSubmit()">
+    <!-- Champ Nom -->
+    <mat-form-field appearance="outline">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="nom" required />
+      <mat-error *ngIf="praticienForm.get('nom')?.invalid">Le nom est obligatoire</mat-error>
+    </mat-form-field>
+
+    <!-- Champ Prénom -->
+    <mat-form-field appearance="outline">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="prenom" required />
+      <mat-error *ngIf="praticienForm.get('prenom')?.invalid">Le prénom est obligatoire</mat-error>
+    </mat-form-field>
+
+    <!-- Champ Email -->
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required />
+      <mat-error *ngIf="praticienForm.get('email')?.invalid">Email invalide</mat-error>
+    </mat-form-field>
+
+    <!-- Champ Téléphone -->
+    <mat-form-field appearance="outline">
+      <mat-label>Téléphone</mat-label>
+      <input matInput formControlName="telephone" required />
+      <mat-error *ngIf="praticienForm.get('telephone')?.invalid">Le téléphone est obligatoire</mat-error>
+    </mat-form-field>
+
+    <!-- Adresses -->
+    <div formArrayName="adresses">
+      @for (adresse of adresses.controls; track i; let i = $index) {
+        <div [formGroupName]="i" class="address-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Type d'adresse</mat-label>
+            <input matInput formControlName="type" readonly />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Rue</mat-label>
+            <input matInput formControlName="rue" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Ville</mat-label>
+            <input matInput formControlName="ville" required />
+          </mat-form-field>
+        </div>
+      }
+    </div>
+
+    <!-- Boutons pour ajouter des adresses -->
+    <div class="button-group">
+      <button mat-button (click)="addAdresse({ type: 'OFFICE' })">Ajouter une adresse de travail</button>
+      <button mat-button (click)="addAdresse({ type: 'OFFICIEL' })">Ajouter une adresse officielle</button>
+      <button mat-button (click)="addAdresse({ type: 'HOME' })">Ajouter une adresse personnelle</button>
+    </div>
+
+    <!-- Spécialités -->
+    <mat-form-field appearance="outline">
+      <mat-label>Spécialités</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Spécialités">
+        @for (specialite of specialitesFormArray.controls; track i; let i = $index) {
+          <mat-chip-row [removable]="true" (removed)="removeSpecialite(i)">
+            {{ specialite.value.nom }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <input
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="addSpecialite($event)"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filterSpecialites($event.option.value)">
+        @for (specialite of filteredSpecialites; track specialite) {
+          <mat-option [value]="specialite.nom">{{ specialite.nom }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!-- Bouton de soumission -->
+    <button mat-raised-button color="primary" type="submit">Mettre à jour</button>
+  </form>
+</div>

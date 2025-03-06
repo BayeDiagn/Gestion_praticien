@@ -1,0 +1,16 @@
+nav{
+  background-color: #314e80;
+  box-shadow: lightgray 2px 2px 10px;
+  .navbar-brand{
+    color: rgb(228, 228, 228);
+  }
+  .navbar-nav{
+    .nav-link{
+      color: rgb(228, 228, 228);
+    }
+  }
+}
+.active{
+  color: #666;
+  text-decoration: underline;
+}
